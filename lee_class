@@ -42,6 +42,8 @@ class lee
     	$json = file_get_contents(getcwd().'/lee.json');
     	$obj = json_decode($json);
     	$lee_frame = new lee_frame($obj->name);
+        $lee_frame->name = $obj->name;     //将项目名传入类中
+        $lee_frame->author = $obj->author; //将作者名传入类中
     	$lee_frame->run();
     }
 

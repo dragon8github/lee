@@ -12,8 +12,20 @@ class lee_frame
 
     function run()
     {
-        !file_exists($this->folder) && mkdir($this->folder);  //创建项目文件夹
-        !file_exists($this->entry) && file_put_contents($this->entry,''); //创建项目入口
+        //创建项目文件夹（如果不存在）
+        !file_exists($this->folder) && mkdir($this->folder);  
+        //打开缓存区，不让内容输出到界面去
+        ob_start();
+        //这个东西比较复杂，首先将指定的类中的属性化为一个数组，然后extract解析数组
+        extract(get_object_vars($this)); 
+        //获取模板内容（需要好好研究学习一下模板的小技巧）
+        include dirname(__FILE__).'/tpl/index.tpl';
+        //获取缓冲区的内容
+        $contents = ob_get_contents();
+        //关闭并且清除缓冲区
+        ob_end_clean();
+        //创建项目入口（覆盖）
+        file_put_contents($this->entry,$contents); 
     }
 }
 ?>
