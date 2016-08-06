@@ -1,0 +1,12 @@
+<?php 
+
+class lee_config
+{
+	//项目名称
+	public $name;	
+
+	//项目作者
+	public $author;	
+}
+
+?>

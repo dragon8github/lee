@@ -1,0 +1,18 @@
+<?php 
+class lee_frame
+{
+	public $folder = "";	//项目文件夹
+	public $entry = "";		//入口文件
+	function __construct($name)
+	{
+		$this->folder = getcwd().'/'.$name;
+		$this->entry = $this->folder.'/index.php';
+	}
+
+	function run()
+	{
+    	!file_exists($this->folder) && mkdir($this->folder);  //创建项目文件夹
+    	!file_exists($this->entry) && file_put_contents($this->entry,''); //创建项目入口
+	}
+}
+?>

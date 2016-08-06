@@ -1,0 +1,22 @@
+#! /usr/bin/php
+<?php 
+  require('lee_class');
+  $result = '';
+  if($argc > 1)  
+  {
+    $p = $argv[1];
+    if(substr($p, 0,1) == '-')
+    {
+        //有'-'说明是属性,利用php版本的“反射”获取属性,当然还要判断一下属性是否存在
+        $p = substr($p,1);
+        //由于属性的调用格式是$name，所以这里有两个$,
+        $result = isset(lee::$$p)?lee::$$p:"command -{$p} is undefind";
+    }
+    else
+    {
+        //否则就是方法或者事件,利用php版本的“反射”获取方法，当然还要判断一下方法是否存在
+        $result = lee::$p();
+    }
+  }
+  $result != '' && exit($result.PHP_EOL);
+?>

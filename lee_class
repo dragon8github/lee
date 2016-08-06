@@ -1,0 +1,47 @@
+<?php 
+require('lee_config');
+class lee
+{
+	static $v = 'god version is 1.2';
+    static function init()
+    {
+		$lee_config = new lee_config();
+
+    	echo "input your project name : ";
+    	$lee_config->name = fgets(STDIN);//项目名称
+
+    	echo "input your author name : ";
+    	$lee_config->author = fgets(STDIN);//项目作者
+
+    	$json = json_encode($lee_config);
+
+    	return file_put_contents(getcwd().'/lee.json',$json).' of bytes is written'.PHP_EOL.'god config is created';
+    }
+
+    static function config()
+    {
+    	$json = file_get_contents(getcwd().'/lee.json');
+    	$obj = json_decode($json);
+    	$result = '';
+    	foreach ($obj as $key => $value) {
+    		$result .= $key.' = '.$value.PHP_EOL;
+    	}
+    	return $result;
+    }
+
+    static function make()
+    {
+    	$json = file_get_contents(getcwd().'/lee.json');
+    	$obj = json_decode($json);
+    	require('lee_frame');
+    	$lee_iframe = new lee_iframe($obj->name);
+    	$lee_iframe->run();
+    }
+
+    //未定义的静态函数调用时，会触发该函数
+    static function __callStatic($m,$static_func)
+    {
+    	exit("static function '{$m}' is not define".PHP_EOL);
+    }
+}
+?>
