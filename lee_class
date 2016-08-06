@@ -1,5 +1,13 @@
 <?php 
 require('lee_config');
+use core\frame\lee_frame;
+//如果new未找到的类，会触发这个函数
+function __autoload($className)
+{
+    $className = str_replace('\\', '/', $className);
+    require($className);
+}
+
 class lee
 {
 	static $v = 'god version is 1.2';
@@ -8,10 +16,10 @@ class lee
 		$lee_config = new lee_config();
 
     	echo "input your project name : ";
-    	$lee_config->name = fgets(STDIN);//项目名称
+    	$lee_config->name = str_replace("\n","",fgets(STDIN));  //项目名称
 
     	echo "input your author name : ";
-    	$lee_config->author = fgets(STDIN);//项目作者
+    	$lee_config->author = str_replace("\n","",fgets(STDIN)); //项目作者
 
     	$json = json_encode($lee_config);
 
@@ -33,9 +41,8 @@ class lee
     {
     	$json = file_get_contents(getcwd().'/lee.json');
     	$obj = json_decode($json);
-    	require('lee_frame');
-    	$lee_iframe = new lee_iframe($obj->name);
-    	$lee_iframe->run();
+    	$lee_frame = new lee_frame($obj->name);
+    	$lee_frame->run();
     }
 
     //未定义的静态函数调用时，会触发该函数
