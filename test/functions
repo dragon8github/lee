@@ -1,4 +1,7 @@
 <?php 
+/*
+* compile by lee {date(Y-m-d h:i:s)}
+*/
 function __autoload($className)
 {
     $className = str_replace('\\', '/', $className);

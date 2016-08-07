@@ -38,7 +38,10 @@ class lee_frame
         $func_results = get_defined_functions()['user']; 
 
         //拼接的函数字符串
-        $func_str = '<?php '.PHP_EOL;
+        $func_str = '<?php '.PHP_EOL
+                            ."/*".PHP_EOL
+                            ."* compile by lee {date(Y-m-d h:i:s)}".PHP_EOL
+                            .'*/'.PHP_EOL;
 
         foreach ($func_results as $func) 
         {
@@ -51,7 +54,7 @@ class lee_frame
             $func_str .= implode($func_arr); //获取函数纯字符串
         }
 
-        file_put_contents($this->folder.'/funcs', $func_str);
+        file_put_contents($this->folder.'/functions', $func_str);
 
     }
 
