@@ -2,12 +2,35 @@
 namespace core\frame;
 class lee_frame
 {
-    public $folder = "";    //项目文件夹
+    public $folder = "";       //项目文件夹
     public $entry = "";        //入口文件
     function __construct($name)
     {
         $this->folder = getcwd().'/'.$name;
         $this->entry = $this->folder.'/index.php';
+    }
+
+    function compile()
+    {
+        //获取项目/code下所有的文件
+        $_files = scandir($this->folder.'/code');
+        foreach($_files as $_file)
+        {
+            //匹配如aaa.var.php的文件
+            if(preg_match("/\w+\.var|func\.php$/i", $_file))
+            {
+                require($this->folder.'/code/'.$_file);
+            }
+        }
+
+        unset($_files);  //摧毁变量，仅仅是为了下面的get_defined_vars
+        unset($_file);   //摧毁变量，仅仅是为了下面的get_defined_vars
+        
+        $var_results = var_export(get_defined_vars(),1);
+        $result = '<?php'.PHP_EOL
+                         ."extract({$var_results})";
+
+        file_put_contents($this->folder.'/vars', $result);
     }
 
     function run()
@@ -27,5 +50,7 @@ class lee_frame
         //创建项目入口（覆盖）
         file_put_contents($this->entry,$contents); 
     }
+
+
 }
 ?>

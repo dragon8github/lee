@@ -10,16 +10,16 @@ function __autoload($className)
 
 class lee
 {
-	static $v = 'god version is 1.2';
+	static $v = 'lee version is 1.2';
     static function init()
     {
 		$lee_config = new lee_config();
 
     	echo "input your project name : ";
-    	$lee_config->name = str_replace("\n","",fgets(STDIN));  //项目名称
+    	$lee_config->name = trim(str_replace("\n","",fgets(STDIN)));  //项目名称
 
     	echo "input your author name : ";
-    	$lee_config->author = str_replace("\n","",fgets(STDIN)); //项目作者
+    	$lee_config->author = trim(str_replace("\n","",fgets(STDIN))); //项目作者
 
     	$json = json_encode($lee_config);
 
@@ -45,6 +45,14 @@ class lee
         $lee_frame->name = $obj->name;     //将项目名传入类中
         $lee_frame->author = $obj->author; //将作者名传入类中
     	$lee_frame->run();
+    }
+
+    static function compile()
+    {
+        $json = file_get_contents(getcwd().'/lee.json');
+        $obj = json_decode($json);
+        $lee_frame = new lee_frame($obj->name);
+        $lee_frame->compile();
     }
 
     //未定义的静态函数调用时，会触发该函数
