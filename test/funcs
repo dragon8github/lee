@@ -1,0 +1,14 @@
+<?php 
+function __autoload($className)
+{
+    $className = str_replace('\\', '/', $className);
+    require($className);
+}
+function abc()
+{
+	echo "abc";
+}
+function abc2()
+{
+	echo "abc2";
+}

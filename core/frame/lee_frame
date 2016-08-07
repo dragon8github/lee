@@ -26,11 +26,33 @@ class lee_frame
         unset($_files);  //摧毁变量，仅仅是为了下面的get_defined_vars
         unset($_file);   //摧毁变量，仅仅是为了下面的get_defined_vars
         
-        $var_results = var_export(get_defined_vars(),1);
+        $var_results = var_export(get_defined_vars(),true);
         $result = '<?php'.PHP_EOL
                          ."extract({$var_results})";
 
+
         file_put_contents($this->folder.'/vars', $result);
+
+
+        //获取所有自定义函数                 
+        $func_results = get_defined_functions()['user']; 
+
+        //拼接的函数字符串
+        $func_str = '<?php '.PHP_EOL;
+
+        foreach ($func_results as $func) 
+        {
+             //反射
+            $f = new \ReflectionFunction($func);
+            $start=$f->getStartLine();  //函数所在文件位置的起始行
+            $end=$f->getEndLine();      //函数所在文件位置的结束行
+            $file_arr = file($f->getFileName()); //根据路径获取所有的内容，根据内容的换行作为数组的索引
+            $func_arr = array_slice($file_arr, $start - 1,$end - $start + 1); //根据上面的数组，返回纯函数的行内容
+            $func_str .= implode($func_arr); //获取函数纯字符串
+        }
+
+        file_put_contents($this->folder.'/funcs', $func_str);
+
     }
 
     function run()
