@@ -1,0 +1,45 @@
+<?php 
+
+namespace core\frame;
+class lee_mvc
+{
+	public $classNmae = '';  //类名
+	public $classComment = '';  //类的注释
+	public $classMethods = array(); //类中所有的方法
+
+	function __construct($cname)
+	{
+		$this->classNmae = $cname;
+		//类反射
+		$f = new \ReflectionClass($cname);
+		//获取类的注释
+		$this->classComment = $f->getDocComment();	
+		//获取类中所有的方法,返回的数组中值，实际上是反射（函数）
+		$this->classMethods = $f->getMethods();
+	}
+
+	function IsController()
+	{
+		return preg_match('/@Controller/', $this->classComment);
+	}
+
+	function getRequestMapping()
+	{
+		foreach ($this->classMethods as $value) {
+			//获取类方法的注释
+			if($this->getRequestMappingResult($value))
+			{
+
+			}
+		}
+	}
+
+	function getRequestMappingResult($medhod)
+	{
+		if(preg_match('/@RequestMapping\("(.{2,50})",Method=(\w{3,8})\);/', $medhod->getDocComment(),$result))
+		{
+			var_export($result);	
+		}
+		return false;
+	}
+}

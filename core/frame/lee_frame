@@ -1,6 +1,8 @@
 <?php 
 namespace core\frame;
+use core\frame\lee_mvc; 
 ini_set('date.timezone','Asia/Shanghai');
+
 class lee_frame
 {
     public $folder = "";       //项目文件夹
@@ -18,18 +20,18 @@ class lee_frame
         foreach($_files as $_file)
         {
             //匹配如aaa.var.php的文件
-            if(preg_match("/\w+\.var|func\.php$/i", $_file))
+            if(preg_match("/\w+\.var|func|class\.php$/i", $_file))
             {
                 require($this->folder.'/code/'.$_file);
             }
         }
 
-        unset($_files);  //摧毁变量，仅仅是为了下面的get_defined_vars
-        unset($_file);   //摧毁变量，仅仅是为了下面的get_defined_vars
+        unset($_files);  //摧毁变量，不要污染到自定义的变量，也是为了下面的get_defined_vars
+        unset($_file);   //摧毁变量，不要污染到自定义的变量，也是为了下面的get_defined_vars
         
         $var_results = var_export(get_defined_vars(),true);
         $result = '<?php'.PHP_EOL
-                         ."extract({$var_results});";
+        ."extract({$var_results});";
 
 
         file_put_contents($this->folder.'/vars', $result);
@@ -40,13 +42,13 @@ class lee_frame
 
         //拼接的函数字符串
         $func_str = "<?php ".PHP_EOL
-                            ."/*".PHP_EOL
-                            ."* compile by lee ".date('Y-m-d h:i:s').PHP_EOL
-                            ."*/".PHP_EOL;
+        ."/*".PHP_EOL
+        ."* compile by lee ".date('Y-m-d h:i:s').PHP_EOL
+        ."*/".PHP_EOL;
 
         foreach ($func_results as $func) 
         {
-             //反射
+             //反射（函数）
             $f = new \ReflectionFunction($func);
             $start=$f->getStartLine();  //函数所在文件位置的起始行
             $end=$f->getEndLine();      //函数所在文件位置的结束行
@@ -56,6 +58,24 @@ class lee_frame
         }
 
         file_put_contents($this->folder.'/functions', $func_str);
+
+
+        //获取项目中所有的类
+        $class_Result = get_declared_classes();
+        //获取当前类名的键
+        $class_key = array_search(__CLASS__, $class_Result);
+        //我也不知道为啥排到当前类之后的类就是自定义的类,算了先写再说吧
+        $class_Result = array_slice($class_Result, $class_key + 1);
+
+        foreach ($class_Result as $value) 
+        {
+          $mvc = new lee_mvc($value);
+          if($mvc->IsController())
+          {
+                $mvc->getRequestMapping();
+          }
+        }
+
 
     }
 

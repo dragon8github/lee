@@ -5,16 +5,17 @@
 */
 class abc
 {
-	function __construct()
-	{
-		# code...
-	}
-
+	/**
+	* @RequestMapping("/getme",Method=GET);
+	*/
 	function index()
 	{
 		echo 'abc';
 	}
 
+	/**
+	* @RequestMapping("/getage",Method=POST);
+	*/
 	function test()
 	{
 		echo 'abctest';
