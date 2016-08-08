@@ -1,0 +1,15 @@
+<?php 
+ return array (
+  '/getme' => 
+  array (
+    'RequestMethod' => 'GET',
+    'Class' => 'abc',
+    'Method' => 'index',
+  ),
+  '/getage' => 
+  array (
+    'RequestMethod' => 'POST',
+    'Class' => 'abc',
+    'Method' => 'test',
+  ),
+);

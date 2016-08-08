@@ -76,8 +76,9 @@ class lee_frame
                 $arr1 = array_merge($arr1,$arr2);
           }
         }
-        var_dump($arr1);
 
+        file_put_contents($this->folder.'/request_route', "<?php ".PHP_EOL." return ".var_export($arr1,true).";");
+       
 
     }
 
