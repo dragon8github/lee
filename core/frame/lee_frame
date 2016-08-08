@@ -66,15 +66,17 @@ class lee_frame
         $class_key = array_search(__CLASS__, $class_Result);
         //我也不知道为啥排到当前类之后的类就是自定义的类,算了先写再说吧
         $class_Result = array_slice($class_Result, $class_key + 1);
-
+        $arr1 = array();
         foreach ($class_Result as $value) 
         {
           $mvc = new lee_mvc($value);
           if($mvc->IsController())
           {
-                $mvc->getRequestMapping();
+                $arr2 = $mvc->getRequestMapping();
+                $arr1 = array_merge($arr1,$arr2);
           }
         }
+        var_dump($arr1);
 
 
     }

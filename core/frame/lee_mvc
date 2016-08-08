@@ -25,20 +25,29 @@ class lee_mvc
 
 	function getRequestMapping()
 	{
+		$arr1 = array();
 		foreach ($this->classMethods as $value) {
 			//获取类方法的注释
-			if($this->getRequestMappingResult($value))
+			$arr2 = $this->getRequestMappingResult($value);
+			if($arr2)
 			{
-
+				$arr1 = array_merge($arr1,$arr2);
 			}
 		}
+		return $arr1;
 	}
 
 	function getRequestMappingResult($medhod)
 	{
+		//@RequestMapping("/getme",Method=GET);
 		if(preg_match('/@RequestMapping\("(.{2,50})",Method=(\w{3,8})\);/', $medhod->getDocComment(),$result))
 		{
-			var_export($result);	
+			$Method = $medhod->getName();   //方法名
+			$RequestUrl = $result[1];  	  //url地址
+			$RequestMethod = $result[2];  //post或者get
+			return array( 
+					$RequestUrl => array('RequestMethod'=>$RequestMethod,'Class'=>$this->classNmae,'Method'=>$Method)
+			);
 		}
 		return false;
 	}
