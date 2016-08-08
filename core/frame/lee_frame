@@ -1,5 +1,6 @@
 <?php 
 namespace core\frame;
+ini_set('date.timezone','Asia/Shanghai');
 class lee_frame
 {
     public $folder = "";       //项目文件夹
@@ -28,7 +29,7 @@ class lee_frame
         
         $var_results = var_export(get_defined_vars(),true);
         $result = '<?php'.PHP_EOL
-                         ."extract({$var_results})";
+                         ."extract({$var_results});";
 
 
         file_put_contents($this->folder.'/vars', $result);
@@ -38,10 +39,10 @@ class lee_frame
         $func_results = get_defined_functions()['user']; 
 
         //拼接的函数字符串
-        $func_str = '<?php '.PHP_EOL
+        $func_str = "<?php ".PHP_EOL
                             ."/*".PHP_EOL
-                            ."* compile by lee {date(Y-m-d h:i:s)}".PHP_EOL
-                            .'*/'.PHP_EOL;
+                            ."* compile by lee ".date('Y-m-d h:i:s').PHP_EOL
+                            ."*/".PHP_EOL;
 
         foreach ($func_results as $func) 
         {
@@ -74,6 +75,10 @@ class lee_frame
         ob_end_clean();
         //创建项目入口（覆盖）
         file_put_contents($this->entry,$contents); 
+
+        //开启我心爱的小耗子
+        echo "lee server is started in 9900".PHP_EOL;
+        system('/usr/bin/php -S localhost:9900 -t '.$this->folder);
     }
 
 
