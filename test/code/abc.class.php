@@ -6,7 +6,7 @@
 class abc
 {
 	/**
-	* @RequestMapping("/getme",Method=GET);
+	* @RequestMapping("/getme/\w{2,10}",Method=GET);
 	*/
 	function index()
 	{
@@ -14,7 +14,7 @@ class abc
 	}
 
 	/**
-	* @RequestMapping("/getage",Method=POST);
+	* @RequestMapping("/getage/\w{2,10}",Method=POST);
 	*/
 	function test()
 	{

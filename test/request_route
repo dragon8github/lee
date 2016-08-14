@@ -1,12 +1,12 @@
 <?php 
  return array (
-  '/getme' => 
+  '/getme/\\w{2,10}' => 
   array (
     'RequestMethod' => 'GET',
     'Class' => 'abc',
     'Method' => 'index',
   ),
-  '/getage' => 
+  '/getage/\\w{2,10}' => 
   array (
     'RequestMethod' => 'POST',
     'Class' => 'abc',
