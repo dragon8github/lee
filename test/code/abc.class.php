@@ -6,11 +6,11 @@
 class abc
 {
 	/**
-	* @RequestMapping("/getme/\w{2,10}",Method=GET);
+	* @RequestMapping("/getme/(?<name>\w{2,10})/(?<age>\w{2,10})",Method=GET);
 	*/
-	function index()
+	function index($name,$age)
 	{
-		echo 'abc';
+		echo 'hello '.$name."   ".$age;
 	}
 
 	/**
