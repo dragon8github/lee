@@ -25,14 +25,14 @@ $route_keys = array_keys($request_route);   //获取路由文件中所有的key�
 
 //遍历request_route文件下所有的key（正则）
 foreach ($route_keys as $value) 
-{
-	$key = str_replace('/', '\/', $value);  //为了使用正则表达式，必须转义
-	if(preg_match("/$key/", $PATH,$result)) //与当前的url进行比对
+{  
+	//为了使用正则表达式，必须转义
+	$key = str_replace('/', '\/', $value);  
+	 //与当前的url进行比对
+	if(preg_match("/$key/", $PATH,$result))
 	{
-
-		$para = $result[1];  //获取匹配合法的用户输入
-		$route = $request_route[$value];  //获取当前的路由数组
-
+		//获取当前的路由数组
+		$route = $request_route[$value];  
 		//判断控制器中设置的访问方式和目前请求的访问方式是否相同
 		if($route["RequestMethod"] == $_SERVER["REQUEST_METHOD"])
 		{
@@ -49,7 +49,8 @@ foreach ($route_keys as $value)
 			}
 			else
 			{
-				$Reflec_Method->invokeArgs(new $className());
+				//无参委托
+				$Reflec_Method->invoke(new $className());
 			}
 		}
 	}

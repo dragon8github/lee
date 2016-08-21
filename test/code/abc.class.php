@@ -14,9 +14,9 @@ class abc
 	}
 
 	/**
-	* @RequestMapping("/getage/\w{2,10}",Method=POST);
+	* @RequestMapping("/login$",Method=GET);
 	*/
-	function test()
+	function login()
 	{
 		echo 'abctest';
 	}

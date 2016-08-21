@@ -86,6 +86,7 @@ class lee_frame
     {
         //创建项目文件夹（如果不存在）
         !file_exists($this->folder) && mkdir($this->folder);  
+        //创建Index.php入口（如果不存在）
         if(!file_exists($this->entry))
         {
             //打开缓存区，不让内容输出到界面去

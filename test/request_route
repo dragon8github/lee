@@ -6,10 +6,10 @@
     'Class' => 'abc',
     'Method' => 'index',
   ),
-  '/getage/\\w{2,10}' => 
+  '/login' => 
   array (
-    'RequestMethod' => 'POST',
+    'RequestMethod' => 'GET',
     'Class' => 'abc',
-    'Method' => 'test',
+    'Method' => 'login',
   ),
 );
