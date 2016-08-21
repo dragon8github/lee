@@ -14,10 +14,13 @@ class abc
 	}
 
 	/**
-	* @RequestMapping("/login$",Method=GET);
+	* @RequestMapping("/login",Method=GET);
 	*/
-	function login()
+	function login($render)
 	{
-		echo 'abctest';
+		$arr["name"] = "Lee";
+		$render('login',$arr);
+		//require('./vars');
+		//include 'page/login.html';
 	}
 }
